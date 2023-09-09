@@ -12,7 +12,7 @@ const haushaltsbuch = {
     //     betrag: null,
     //     datum: null
     // },
-    eintraege:[
+    eintraege: [
 
     ],
 
@@ -20,19 +20,15 @@ const haushaltsbuch = {
     // eintrag_erfassen ein objekt mit den Eigenschaften titel, typ, betrag und datum 
     //dieses objekt in einträge array reinpackt
     eintrag_erfassen() {
-            this.titel = prompt("Titel: "),
-            this.typ = prompt("Typ (Einnhame oder Ausgabe: "),
-            this.betrag = parseInt(prompt("Betrag (in Cent): ")),
-            this.datum = prompt("Datum (jjjj-mm-tt")
-        return {
-            titel: this.titel,
-            typ: this.typ,
-            betrag: this.betrag,
-            datum: this.datum
+        this.eintraege.push(
+            {
+                titel: prompt("Titel: "),
+                typ: prompt("Typ (Einnhame oder Ausgabe: "),
+                betrag: parseInt(prompt("Betrag (in Cent): ")),
+                datum: prompt("Datum (jjjj-mm-tt")
+            }
+        );
 
-        };
-        
-     
         // this.neuer_eintrag.titel = prompt("Titel: ");
         // this.neuer_eintrag.typ = prompt("Typ (Einnhame oder Ausgabe: ");
         // this.neuer_eintrag.betrag = parseInt(prompt("Betrag (in Cent): "));
@@ -40,7 +36,7 @@ const haushaltsbuch = {
     },
 
 
-   
+
 
 
 
@@ -74,10 +70,10 @@ const haushaltsbuch = {
     // Die Bilanz ist positiv: ${this.gesamtbilanz.bilanz >= 0}`
     //     );
     // },
-    
+
     eintrag_hinzufuegen() {
-        this.eintraege.push(this.eintrag_erfassen());
-        
+        this.eintrag_erfassen();
+
         // this.eintrag_ausgeben();
         // this.eintrag_mit_gesamtbilanz_verrechnen();
         // this.gesamtbilanz_ausgeben();
@@ -90,7 +86,7 @@ haushaltsbuch.eintrag_hinzufuegen();
 //console.log(haushaltsbuch.eintrag_erfassen());
 haushaltsbuch.eintrag_hinzufuegen();
 haushaltsbuch.eintrag_hinzufuegen();
-console.log(haushaltsbuch.eintraege);
+console.log(haushaltsbuch);
 
 
 
