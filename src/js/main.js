@@ -66,21 +66,31 @@ const haushaltsbuch = {
             + `Die Bilanz ist positiv: ${this.gesamtbilanz.bilanz >= 0}`
         );
     },
-    // Variable hinzufügen "weitere Eitnrag" auf True   
-    // While Schleife für die 4 Methoden umschließt 
-    // confirm dialog hinzufügen in weitere eintrag speichern
-    // confirm("Weiteren Eintrag hinzufügen?")
+   
+    eintraege_sortieren() {
+        this.eintraege.sort(function (eintrag_a, eintrag_b) {
+            if (eintrag_a.datum > eintrag_b.datum) {
+                return -1;
+            } else if (eintrag_a.datum < eintrag_b.datum) {
+                return 1;
+            } else {
+                return 0;
+            }
+        })
+    },
+
     eintraege_hinzufuegen() {
         let weiterer_eintrag = true;
 
         while (weiterer_eintrag) {
             this.eintrag_erfassen();
+            this.eintraege_sortieren();
             this.eintraege_ausgeben();
             this.gesamtbilanz_erstellen();
             this.gesamtbilanz_ausgeben();
             weiterer_eintrag = confirm("Weiteren Eintrag hinzufügen?");
             console.log(" true oder false " + weiterer_eintrag);
-            
+
         }
     }
 
