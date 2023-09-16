@@ -2,20 +2,16 @@
 
 const haushaltsbuch = {
     gesamtbilanz: new Map(),
-
-    // einnahmen: 0,
-    // ausgaben: 0,
-    // bilanz: 0
-
-
     eintraege: [],
 
     eintrag_erfassen() {
         let neuer_eintrag = new Map();
         neuer_eintrag.set("titel", prompt("Titel: ")),
-        neuer_eintrag.set("typ", prompt("Typ (Einahme oder Ausgabe): ")),
+        neuer_eintrag.set("typ", prompt("Typ (Einnahme oder Ausgabe): ")),
         neuer_eintrag.set("betrag", parseInt(prompt("Betrag (in Cent): "))),
-        neuer_eintrag.set("datum", prompt("Datum (jjjj-mm-tt")),
+        neuer_eintrag.set("datum", new Date(prompt("Datum (jjjj-mm-tt")+ " 00:00:00")),
+        neuer_eintrag.set("timestap", Date.now());
+
         this.eintraege.push(neuer_eintrag);
 
     },
@@ -34,11 +30,16 @@ const haushaltsbuch = {
 
     eintraege_ausgeben() {
         console.clear();
-        this.eintraege.forEach(function (eintrag) {
+        this.eintraege.forEach(function(eintrag) {
             console.log(`Titel: ${eintrag.get("titel")}\n`
                 + `Typ: ${eintrag.get("typ")}\n`
                 + `Betrag: ${eintrag.get("betrag")} ct\n`
-                + `Datum: ${eintrag.get("datum")}`
+                + `Datum: ${eintrag.get("datum").toLocaleDateString("de-DE", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit"
+                })}\n`
+                + `Timestap: ${eintrag.get("timestap")}`
             );
         });
     },
@@ -46,32 +47,33 @@ const haushaltsbuch = {
     gesamtbilanz_erstellen() {
 
         let neue_gesamtbilanz = new Map();
-        neue_gesamtbilanz.set("einnahmen", 0);
+        neue_gesamtbilanz.set("einnahme", 0);
         neue_gesamtbilanz.set("ausgabe", 0);
         neue_gesamtbilanz.set("bilanz", 0);
 
         this.eintraege.forEach(function (eintrag) {
-            switch (eintrag.get(typ)) {
+            switch (eintrag.get("typ")) {
                 case "Einnahme":
-                    neue_gesamtbilanz.set("einnahmen", neue_gesamtbilanz.get("einnahmen") + eintrag.get("betrag"));
+                    neue_gesamtbilanz.set("einnahme", neue_gesamtbilanz.get("einnahme") + eintrag.get("betrag"));
                     neue_gesamtbilanz.set("bilanz", neue_gesamtbilanz.get("bilanz") + eintrag.get("betrag"));                  
                     break;
                 case "Ausgabe":
-                    neue_gesamtbilanz.set("ausgaben", neue_gesamtbilanz.get("ausgabe") + eintrag.get("ausgabe"));
-                    neue_gesamtbilanz.set("bilanz", neue_gesamtbilanz.get("bilanz") - eintrag.get("bilanz"));
+                    neue_gesamtbilanz.set("ausgabe", neue_gesamtbilanz.get("ausgabe") + eintrag.get("betrag"));
+                    neue_gesamtbilanz.set("bilanz", neue_gesamtbilanz.get("bilanz") - eintrag.get("betrag"));
                     break;
                 default:
-                    console.log(`Der Typ "${eintrag.get(typ)}" ist nicht bekannt!`);
+                    console.log(`Der Typ "${eintrag.get("typ")}" ist nicht bekannt!`);
 
             }
         });
         this.gesamtbilanz = neue_gesamtbilanz;
     },
     gesamtbilanz_ausgeben() {
-        console.log(`Einnahmen ${this.gesamtbilanz.get("einnahmen")} ct\n`
-            + `Ausgaben ${this.gesamtbilanz.get("ausgaben")} ct\n`
+        console.log(`Einnahmen ${this.gesamtbilanz.get("einnahme")} ct\n`
+            + `Ausgaben ${this.gesamtbilanz.get("ausgabe")} ct\n`
             + `Bilanz: ${this.gesamtbilanz.get("bilanz")} ct\n`
-            + `Die Bilanz ist positiv: ${this.gesamtbilanz.get("bilanz") >= 0}`
+            + `Die Bilanz ist positiv: ${this.gesamtbilanz.get("bilanz") >= 0}\n`
+            
         );
     },
 
@@ -96,7 +98,7 @@ const haushaltsbuch = {
 
 haushaltsbuch.eintraege_hinzufuegen();
 
-// console.log(haushaltsbuch);
+console.log(haushaltsbuch);
 
 
 
